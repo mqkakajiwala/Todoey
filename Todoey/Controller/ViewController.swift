@@ -10,11 +10,11 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    //MARK - Properties
+    //MARK: Properties
     @IBOutlet weak var todoListTableView: UITableView!
     
-    //MARK - Instance variables
-    let itemArray = ["Shopping" , "Buy Eggs"]
+    //MARK: Instance variables
+    var itemArray = ["Shopping" , "Buy Eggs"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +25,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         todoListTableView.dataSource = self
     }
 
-    //MARK - Tableview Datasource Methods
+    //MARK: Tableview Datasource Methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemArray.count
@@ -39,7 +39,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return cell
     }
     
-    //MARK - Tableview Delegate Methods
+    //MARK: Tableview Delegate Methods
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -51,6 +51,28 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
-
+    
+    //MARK: Add New Todo Item BarButton Method
+    
+    @IBAction func addNewTodoItemButtonPressed(_ sender: UIBarButtonItem) {
+        var alertTextField = UITextField()
+        let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "Add Item", style: .default) {
+            action in
+            self.itemArray.append(alertTextField.text!)
+            self.todoListTableView.reloadData()
+        }
+        
+        alert.addTextField {
+            textField in
+            textField.placeholder = "Add Item here"
+            alertTextField = textField
+        }
+        
+        alert.addAction(alertAction)
+        present(alert, animated: true, completion: nil)
+        
+    }
+    
 }
 
