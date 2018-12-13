@@ -15,6 +15,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     //MARK: Instance variables
     var itemArray = ["Shopping" , "Buy Eggs"]
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +24,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         //Declare tableview delegate
         todoListTableView.delegate = self
         todoListTableView.dataSource = self
+        
+        //Get array from user defaults
+        if let items = defaults.array(forKey: "toDoListArrayKey") as? [String] {
+            itemArray = items
+        }
     }
 
     //MARK: Tableview Datasource Methods
@@ -60,6 +66,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let alertAction = UIAlertAction(title: "Add Item", style: .default) {
             action in
             self.itemArray.append(alertTextField.text!)
+            self.defaults.set(self.itemArray, forKey: "toDoListArrayKey")
             self.todoListTableView.reloadData()
         }
         
