@@ -14,8 +14,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var todoListTableView: UITableView!
     
     //MARK: Instance variables
-    var itemArray = ["Shopping" , "Buy Eggs"]
+    var itemArray = [ItemData]()
     let defaults = UserDefaults.standard
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,8 +26,45 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         todoListTableView.delegate = self
         todoListTableView.dataSource = self
         
+        
+        //add items to items data array
+        let itemAdded1 = ItemData()
+        itemAdded1.itemAdded = "Shopping"
+        itemArray.append(itemAdded1)
+        
+        let itemAdded2 = ItemData()
+        itemAdded2.itemAdded = "Buy Eggs"
+        itemArray.append(itemAdded2)
+        
+        let itemAdded3 = ItemData()
+        itemAdded3.itemAdded = "Learn Shopping"
+        itemArray.append(itemAdded3)
+        itemArray.append(itemAdded3)
+        itemArray.append(itemAdded3)
+        itemArray.append(itemAdded3)
+        itemArray.append(itemAdded3)
+        itemArray.append(itemAdded3)
+        itemArray.append(itemAdded3)
+        itemArray.append(itemAdded3)
+        itemArray.append(itemAdded3)
+        itemArray.append(itemAdded3)
+        itemArray.append(itemAdded3)
+        itemArray.append(itemAdded3)
+        itemArray.append(itemAdded3)
+        itemArray.append(itemAdded3)
+        itemArray.append(itemAdded3)
+        itemArray.append(itemAdded3)
+        itemArray.append(itemAdded3)
+        itemArray.append(itemAdded3)
+        itemArray.append(itemAdded3)
+        itemArray.append(itemAdded3)
+        
+        
+        
+        
+        
         //Get array from user defaults
-        if let items = defaults.array(forKey: "toDoListArrayKey") as? [String] {
+        if let items = defaults.array(forKey: "toDoListArrayKey") as? [ItemData] {
             itemArray = items
         }
     }
@@ -40,7 +78,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "todoItemCell", for: indexPath)
-        cell.textLabel?.text = itemArray[indexPath.row]
+        cell.textLabel?.text = itemArray[indexPath.row].itemAdded
+        
+        //writng a turnary expression
+        //value = condition ? iftrue : iffalse
+        cell.accessoryType = itemArray[indexPath.row].done ? .checkmark : .none
         
         return cell
     }
@@ -49,11 +91,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-        }else {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-        }
+        itemArray[indexPath.row].done = !itemArray[indexPath.row].done
+        
+        tableView.reloadData()
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -65,7 +105,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
         let alertAction = UIAlertAction(title: "Add Item", style: .default) {
             action in
-            self.itemArray.append(alertTextField.text!)
+            let itemAdded = ItemData()
+            itemAdded.itemAdded = alertTextField.text!
+            self.itemArray.append(itemAdded)
             self.defaults.set(self.itemArray, forKey: "toDoListArrayKey")
             self.todoListTableView.reloadData()
         }
