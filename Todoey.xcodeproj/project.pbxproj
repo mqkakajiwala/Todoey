@@ -54,14 +54,46 @@
 		4520801421C2C6C600B9EB88 /* Todoey */ = {
 			isa = PBXGroup;
 			children = (
-				4520801521C2C6C600B9EB88 /* AppDelegate.swift */,
-				4520801721C2C6C600B9EB88 /* ViewController.swift */,
-				4520801921C2C6C600B9EB88 /* Main.storyboard */,
+				4520802921C2C74100B9EB88 /* Model */,
+				4520802821C2C73900B9EB88 /* View */,
+				4520802721C2C72800B9EB88 /* Controller */,
+				4520802A21C2C74C00B9EB88 /* Supporting Files */,
 				4520801C21C2C6C800B9EB88 /* Assets.xcassets */,
 				4520801E21C2C6C800B9EB88 /* LaunchScreen.storyboard */,
-				4520802121C2C6C800B9EB88 /* Info.plist */,
 			);
 			path = Todoey;
+			sourceTree = "<group>";
+		};
+		4520802721C2C72800B9EB88 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				4520801521C2C6C600B9EB88 /* AppDelegate.swift */,
+				4520801721C2C6C600B9EB88 /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		4520802821C2C73900B9EB88 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4520801921C2C6C600B9EB88 /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		4520802921C2C74100B9EB88 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4520802A21C2C74C00B9EB88 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4520802121C2C6C800B9EB88 /* Info.plist */,
+			);
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,7 +315,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = Todoey/Info.plist;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = "$(SRCROOT)/Todoey/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -300,7 +333,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = Todoey/Info.plist;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = "$(SRCROOT)/Todoey/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
