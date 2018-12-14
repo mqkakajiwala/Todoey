@@ -9,13 +9,14 @@
 import UIKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+    
     //MARK: Properties
     @IBOutlet weak var todoListTableView: UITableView!
     
     //MARK: Instance variables
     var itemArray = [ItemData]()
     let defaults = UserDefaults.standard
+    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
     
     
     override func viewDidLoad() {
@@ -26,49 +27,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         todoListTableView.delegate = self
         todoListTableView.dataSource = self
         
-        
-        //add items to items data array
-        let itemAdded1 = ItemData()
-        itemAdded1.itemAdded = "Shopping"
-        itemArray.append(itemAdded1)
-        
-        let itemAdded2 = ItemData()
-        itemAdded2.itemAdded = "Buy Eggs"
-        itemArray.append(itemAdded2)
-        
-        let itemAdded3 = ItemData()
-        itemAdded3.itemAdded = "Learn Shopping"
-        itemArray.append(itemAdded3)
-        itemArray.append(itemAdded3)
-        itemArray.append(itemAdded3)
-        itemArray.append(itemAdded3)
-        itemArray.append(itemAdded3)
-        itemArray.append(itemAdded3)
-        itemArray.append(itemAdded3)
-        itemArray.append(itemAdded3)
-        itemArray.append(itemAdded3)
-        itemArray.append(itemAdded3)
-        itemArray.append(itemAdded3)
-        itemArray.append(itemAdded3)
-        itemArray.append(itemAdded3)
-        itemArray.append(itemAdded3)
-        itemArray.append(itemAdded3)
-        itemArray.append(itemAdded3)
-        itemArray.append(itemAdded3)
-        itemArray.append(itemAdded3)
-        itemArray.append(itemAdded3)
-        itemArray.append(itemAdded3)
-        
-        
-        
-        
+        loadItems()
         
         //Get array from user defaults
         if let items = defaults.array(forKey: "toDoListArrayKey") as? [ItemData] {
             itemArray = items
         }
     }
-
+    
     //MARK: Tableview Datasource Methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -93,7 +59,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         
-        tableView.reloadData()
+        saveItems()
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -108,8 +74,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             let itemAdded = ItemData()
             itemAdded.itemAdded = alertTextField.text!
             self.itemArray.append(itemAdded)
-            self.defaults.set(self.itemArray, forKey: "toDoListArrayKey")
-            self.todoListTableView.reloadData()
+            
+            
+            self.saveItems()
+            
         }
         
         alert.addTextField {
@@ -122,6 +90,32 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         present(alert, animated: true, completion: nil)
         
     }
+    
+    func saveItems() {
+        let encoder = PropertyListEncoder()
+        do {
+            let data = try encoder.encode(itemArray)
+            try data.write(to: dataFilePath!)
+        }
+        catch {
+            print("Error encoding Item Array \(error)")
+        }
+        
+        self.todoListTableView.reloadData()
+    }
+    
+    func loadItems() {
+        if let data = try? Data(contentsOf: dataFilePath!) {
+            let decoder = PropertyListDecoder()
+            do {
+                itemArray = try decoder.decode([ItemData].self, from: data)
+            } catch {
+                print("Error decoding Item Array \(error)")
+            }
+        }
+    }
+    
+    
     
 }
 
